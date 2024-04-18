@@ -1,9 +1,12 @@
 import { useState, useRef, useEffect } from "react";
+import useCounter from "./CustomHooks/counterHook";
 
 const App = () => {
   //useState hook
   const [switchBtn, setSwitchBtn] = useState(false);
-  const [counter, setCounter] = useState(0);
+
+  //custom hook
+  const Counter = useCounter({ initialVal: 0 });
 
   //useRef hook
   const inputRef = useRef();
@@ -12,7 +15,7 @@ const App = () => {
   //useEffect hook
   useEffect(() => {
     countRenders.current = countRenders.current + 1;
-  }, [counter]);
+  }, [Counter]);
 
   const handleRef = () => {
     return inputRef.current.focus();
@@ -21,16 +24,9 @@ const App = () => {
     setSwitchBtn(!switchBtn);
   };
 
-  const decreaseCount = () => {
-    if (counter > 0) setCounter(counter - 1);
-  };
-  const increaseCount = () => {
-    setCounter(counter + 1);
-  };
-
   function handleAlertClick() {
     setTimeout(() => {
-      alert("You clicked on: " + counter);
+      alert("Input field value is: " + inputRef.current.value);
     }, 3000);
   }
   return (
@@ -53,24 +49,10 @@ const App = () => {
       <br />
 
       <h2> Counter Example :p</h2>
-      <div style={{ display: "flex", flexDirection: "row", columnGap: 15 }}>
-        <button
-          style={{ paddingLeft: 10, paddingRight: 10 }}
-          onClick={decreaseCount}
-        >
-          -
-        </button>
-        <p>{counter}</p>
-        <button
-          style={{ paddingLeft: 10, paddingRight: 10 }}
-          onClick={increaseCount}
-        >
-          +
-        </button>
-      </div>
+      {Counter}
       <br />
       <br />
-      <button onClick={() => setCounter(0)}>Reset Counter</button>
+
       <br />
       <br />
       <button onClick={handleAlertClick}>Show alert</button>
