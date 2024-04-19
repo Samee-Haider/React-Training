@@ -1,8 +1,8 @@
-import { useState } from "react";
+import React, { useState } from "react";
 
-const useCounter = ({ initialVal }) => {
+const Counter = ({ initialVal }) => {
   const [counter, setCounter] = useState(initialVal);
-
+  console.log("counter re-render");
   const decreaseCount = () => {
     if (counter > 0) setCounter(counter - 1);
   };
@@ -30,4 +30,4 @@ const useCounter = ({ initialVal }) => {
   );
 };
 
-export default useCounter;
+export default Counter;

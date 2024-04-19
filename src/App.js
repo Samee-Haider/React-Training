@@ -1,13 +1,9 @@
-import { useState, useRef, useEffect } from "react";
-import useCounter from "./CustomHooks/counterHook";
-
+import { useRef, useEffect, useState } from "react";
+import Counter from "./components/counter";
+import SwitchBtn from "./components/switchBtn";
 const App = () => {
   //useState hook
-  const [switchBtn, setSwitchBtn] = useState(false);
-
-  //custom hook
-  const Counter = useCounter({ initialVal: 0 });
-
+  const [inputField, setInputField] = useState("");
   //useRef hook
   const inputRef = useRef();
   const countRenders = useRef(0);
@@ -15,13 +11,13 @@ const App = () => {
   //useEffect hook
   useEffect(() => {
     countRenders.current = countRenders.current + 1;
-  }, [Counter]);
-
+  });
+  const handleInputChange = (event) => {
+    const value = event.target.value;
+    setInputField(value);
+  };
   const handleRef = () => {
     return inputRef.current.focus();
-  };
-  const handleSwitch = () => {
-    setSwitchBtn(!switchBtn);
   };
 
   function handleAlertClick() {
@@ -31,30 +27,30 @@ const App = () => {
   }
   return (
     <div style={{ marginLeft: 20 }}>
-      <h1>UseState Hook Examples</h1>
-      <br />
-      <br />
-      <h2> A Random Switch Button </h2>
-      <h3>
-        Switch: <span>{switchBtn ? "On" : "Off"}</span>
-      </h3>
+      <h1 style={{ marginBottom: 40 }}>UseState Hook Examples</h1>
 
-      <button onClick={handleSwitch}>Switch Button</button>
-      <br />
-      <br />
-      <input type="text" ref={inputRef}></input>
-      <button onClick={handleRef}>Ref Button</button>
-      <h1>Render Count: {countRenders.current}</h1>
-      <br />
-      <br />
+      <h1 style={{ marginBottom: 60 }}>Render Count: {countRenders.current}</h1>
+      <SwitchBtn />
+      <input
+        type="text"
+        ref={inputRef}
+        value={inputField}
+        onChange={handleInputChange}
+      ></input>
+      <button style={{ marginBottom: 40 }} onClick={handleRef}>
+        Focus Input Button
+      </button>
 
       <h2> Counter Example :p</h2>
-      {Counter}
-      <br />
-      <br />
+      <div style={{ marginBottom: 40 }}>
+        <Counter style={{ marginBottom: 40 }} initialVal={0} />
+      </div>
 
-      <br />
-      <br />
+      <h2> Another Counter Example :x</h2>
+      <div style={{ marginBottom: 40 }}>
+        <Counter style={{ marginBottom: 40 }} initialVal={0} />
+      </div>
+
       <button onClick={handleAlertClick}>Show alert</button>
     </div>
   );
